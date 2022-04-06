@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "ta9nZe+fP7t9mSi/281hxbC9lw22dqmuDmHRWazEu6/TDeEARBmsi0FeagfpiN0k7bygxScdD7xOICim7V0fBQ==",
+  "success": true,
+  "projectFilePath": "/Users/lukasstage/Documents/macstuff/functional programming/git/scrabble/ScrabbleTemplate/ScrabbleBot/ScrabbleBot.fsproj",
+  "expectedPackageFiles": [
+    "/Users/lukasstage/.nuget/packages/fparsec/1.1.1/fparsec.1.1.1.nupkg.sha512",
+    "/Users/lukasstage/.nuget/packages/fsharp.core/6.0.3/fsharp.core.6.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
