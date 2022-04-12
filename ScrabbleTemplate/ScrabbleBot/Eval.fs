@@ -1,11 +1,21 @@
-﻿// Insert your updated Eval.fs file here from Assignment 7. All modules must be internal.
-
-module internal Eval
+﻿module internal Eval
 
     open StateMonad
 
-    let add a b = failwith "Not implemented"      
-    let div a b = failwith "Not implemented"      
+    (* Code for testing *)
+    type word = (char * int) list;;
+    let (hello : word) = [('H', 4); ('E', 1); ('L', 1); ('L', 1); ('O', 1);];; 
+    let state = mkState [("x", 5); ("y", 42)] hello ["_pos_"; "_result_"]
+    let emptyState = mkState [] [] []
+    
+    let add (a : SM<int>) (b : SM<int>) =
+        a >>= fun a1 -> b >>= fun b1 -> ret (a1 + b1)
+        
+    let div (a : SM<int>) (b : SM<int>) =
+        a >>= fun a1 -> b >>= fun b1 ->
+            match b1 with
+            | 0 -> fail DivisionByZero
+            | _ -> ret (a1 / b1)
 
     type aExp =
         | N of int
@@ -37,7 +47,8 @@ module internal Eval
        | Conj of bExp * bExp  (* boolean conjunction *)
 
        | IsVowel of cExp      (* check for vowel *)
-       | IsConsonant of cExp  (* check for constant *)
+       | IsLetter of cExp     (* check for letter *)
+       | IsDigit of cExp      (* check for digit *)
 
     let (.+.) a b = Add (a, b)
     let (.-.) a b = Sub (a, b)
@@ -57,11 +68,51 @@ module internal Eval
     let (.>=.) a b = ~~(a .<. b)                (* numeric greater than or equal to *)
     let (.>.) a b = ~~(a .=. b) .&&. (a .>=. b) (* numeric greater than *)    
 
-    let arithEval a : SM<int> = failwith "Not implemented"      
+    let rec arithEval (a : aExp) : SM<int> =
+        match a with
+        | N n -> ret n
+        | V v -> lookup v
+        | WL -> wordLength
+        | PV a -> (>>=) (arithEval a) pointValue
+        | Add (a, b) -> add (arithEval a) (arithEval b) 
+        | Sub (a, b) -> (arithEval a) >>= fun a1 ->
+                        (arithEval b) >>= fun b1 ->
+                        ret (a1 - b1)
+        | Mul (a, b) -> (arithEval a) >>= fun a1 ->
+                        (arithEval b) >>= fun b1 ->
+                        ret (a1 * b1)
+        | Div (a, b) -> div (arithEval a) (arithEval b)
+        | Mod (a, b) -> (arithEval a) >>= fun a1 -> (arithEval b) >>= fun b1 ->
+                        match b1 with
+                        | 0 -> fail DivisionByZero
+                        | _ -> ret (a1 % b1)
+        | CharToInt c -> (>>=) (charEval c) (fun c1 -> ret (int c1))     
 
-    let charEval c : SM<char> = failwith "Not implemented"      
+    and charEval (c : cExp) : SM<char> =
+        match c with
+        | C c -> ret c
+        | CV c -> (>>=) (arithEval c) characterValue
+        | ToUpper c -> (>>=) (charEval c) (fun c1 -> ret (System.Char.ToUpper(c1)))
+        | ToLower c -> (>>=) (charEval c) (fun c1 -> ret (System.Char.ToLower(c1)))
+        | IntToChar a -> (>>=) (arithEval a) (fun a1 -> ret (System.Convert.ToChar(a1))) 
 
-    let boolEval b : SM<bool> = failwith "Not implemented"
+    and boolEval b : SM<bool> =
+        match b with
+        | TT -> ret true 
+        | FF -> ret false 
+        | AEq (a, b) -> (arithEval a) >>= fun a1 -> (arithEval b) >>= fun b1 -> ret (a1 = b1)
+        | ALt (a, b) -> (arithEval a) >>= fun a1 -> (arithEval b) >>= fun b1 -> ret (a1 < b1)
+        | Not b -> (boolEval b) >>= fun b1 -> ret (not b1)
+        | Conj (a, b)-> (boolEval a) >>= fun a1 -> (boolEval b) >>= fun b1 -> ret (a1 && b1)
+        | IsVowel c -> (charEval c) >>= fun c1 ->
+                        match c1 with
+                        | 'A' | 'E' | 'I' | 'O' | 'U' -> ret (true)
+                        | 'a' | 'e' | 'i' | 'o' | 'u' -> ret (true)
+                        | _ -> ret (false)
+        | IsLetter c -> (charEval c) >>= fun c1 ->
+                        if System.Char.IsLetter(c1) then ret (true) else ret (false)
+        | IsDigit c -> (charEval c) >>= fun c1 ->
+                        if System.Char.IsDigit(c1) then ret (true) else ret (false)
 
 
     type stm =                (* statements *)
@@ -92,9 +143,8 @@ module internal Eval
 
     let stmntEval2 stm = failwith "Not implemented"
 
-(* Part 4 *) 
+(* Part 4 (Optional) *) 
 
-    type word = (char * int) list
     type squareFun = word -> int -> int -> Result<int, Error>
 
     let stmntToSquareFun stm = failwith "Not implemented"
@@ -113,3 +163,4 @@ module internal Eval
     }
 
     let mkBoard c defaultSq boardStmnt ids = failwith "Not implemented"
+    

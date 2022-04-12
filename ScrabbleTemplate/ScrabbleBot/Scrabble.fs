@@ -1,4 +1,4 @@
-﻿namespace YourClientName
+﻿namespace FSkarp
 
 open ScrabbleUtil
 open ScrabbleUtil.ServerCommunication

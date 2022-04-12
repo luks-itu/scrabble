@@ -214,6 +214,19 @@
           "ref/netstandard1.3/System.Threading.Tasks.dll": {}
         }
       },
+      "Dictionary/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "FSharp.Core": "6.0.1"
+        },
+        "compile": {
+          "bin/placeholder/Dictionary.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Dictionary.dll": {}
+        }
+      },
       "ScrabbleBot/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
@@ -897,6 +910,11 @@
         "system.threading.tasks.nuspec"
       ]
     },
+    "Dictionary/1.0.0": {
+      "type": "project",
+      "path": "../Dictionary/Dictionary.fsproj",
+      "msbuildProject": "../Dictionary/Dictionary.fsproj"
+    },
     "ScrabbleBot/1.0.0": {
       "type": "project",
       "path": "../ScrabbleBot/ScrabbleBot.fsproj",
@@ -905,6 +923,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "Dictionary >= 1.0.0",
       "FSharp.Core >= 6.0.3",
       "FSharp.Quotations.Evaluator >= 2.1.0",
       "FsPickler >= 5.3.2",
@@ -912,24 +931,26 @@
     ]
   },
   "packageFolders": {
-    "/Users/lukasstage/.nuget/packages/": {}
+    "C:\\Users\\mgerv\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/lukasstage/Documents/macstuff/functional_programming/git/scrabble/ScrabbleTemplate/ScrabbleTemplate/ScrabbleTemplate.fsproj",
+      "projectUniqueName": "C:\\Users\\mgerv\\Desktop\\ITU\\4_sem\\BFUP\\scrabble\\ScrabbleTemplate\\ScrabbleTemplate\\ScrabbleTemplate.fsproj",
       "projectName": "ScrabbleTemplate",
-      "projectPath": "/Users/lukasstage/Documents/macstuff/functional_programming/git/scrabble/ScrabbleTemplate/ScrabbleTemplate/ScrabbleTemplate.fsproj",
-      "packagesPath": "/Users/lukasstage/.nuget/packages/",
-      "outputPath": "/Users/lukasstage/Documents/macstuff/functional_programming/git/scrabble/ScrabbleTemplate/ScrabbleTemplate/obj/",
+      "projectPath": "C:\\Users\\mgerv\\Desktop\\ITU\\4_sem\\BFUP\\scrabble\\ScrabbleTemplate\\ScrabbleTemplate\\ScrabbleTemplate.fsproj",
+      "packagesPath": "C:\\Users\\mgerv\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mgerv\\Desktop\\ITU\\4_sem\\BFUP\\scrabble\\ScrabbleTemplate\\ScrabbleTemplate\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/lukasstage/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\mgerv\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {},
         "https://nuget.pkg.github.com/jesper-bengtson/index.json": {}
       },
@@ -937,8 +958,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "/Users/lukasstage/Documents/macstuff/functional_programming/git/scrabble/ScrabbleTemplate/ScrabbleBot/ScrabbleBot.fsproj": {
-              "projectPath": "/Users/lukasstage/Documents/macstuff/functional_programming/git/scrabble/ScrabbleTemplate/ScrabbleBot/ScrabbleBot.fsproj"
+            "C:\\Users\\mgerv\\Desktop\\ITU\\4_sem\\BFUP\\scrabble\\ScrabbleTemplate\\Dictionary\\Dictionary.fsproj": {
+              "projectPath": "C:\\Users\\mgerv\\Desktop\\ITU\\4_sem\\BFUP\\scrabble\\ScrabbleTemplate\\Dictionary\\Dictionary.fsproj"
+            },
+            "C:\\Users\\mgerv\\Desktop\\ITU\\4_sem\\BFUP\\scrabble\\ScrabbleTemplate\\ScrabbleBot\\ScrabbleBot.fsproj": {
+              "projectPath": "C:\\Users\\mgerv\\Desktop\\ITU\\4_sem\\BFUP\\scrabble\\ScrabbleTemplate\\ScrabbleBot\\ScrabbleBot.fsproj"
             }
           }
         }
@@ -980,7 +1004,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.101/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.102\\RuntimeIdentifierGraph.json"
       }
     }
   }

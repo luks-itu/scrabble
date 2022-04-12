@@ -1,6 +1,4 @@
-﻿// This file is new and hides the implementation details of the parser.
-
-module internal Parser
+﻿module internal Parser
     
     open ScrabbleUtil
     open StateMonad

@@ -151,24 +151,26 @@
     ]
   },
   "packageFolders": {
-    "/Users/lukasstage/.nuget/packages/": {}
+    "C:\\Users\\mgerv\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/lukasstage/Documents/macstuff/functional programming/git/scrabble/ScrabbleTemplate/ScrabbleBot/ScrabbleBot.fsproj",
+      "projectUniqueName": "C:\\Users\\mgerv\\Desktop\\ITU\\4_sem\\BFUP\\scrabble\\ScrabbleTemplate\\ScrabbleBot\\ScrabbleBot.fsproj",
       "projectName": "ScrabbleBot",
-      "projectPath": "/Users/lukasstage/Documents/macstuff/functional programming/git/scrabble/ScrabbleTemplate/ScrabbleBot/ScrabbleBot.fsproj",
-      "packagesPath": "/Users/lukasstage/.nuget/packages/",
-      "outputPath": "/Users/lukasstage/Documents/macstuff/functional programming/git/scrabble/ScrabbleTemplate/ScrabbleBot/obj/",
+      "projectPath": "C:\\Users\\mgerv\\Desktop\\ITU\\4_sem\\BFUP\\scrabble\\ScrabbleTemplate\\ScrabbleBot\\ScrabbleBot.fsproj",
+      "packagesPath": "C:\\Users\\mgerv\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mgerv\\Desktop\\ITU\\4_sem\\BFUP\\scrabble\\ScrabbleTemplate\\ScrabbleBot\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/lukasstage/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\mgerv\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {},
         "https://nuget.pkg.github.com/jesper-bengtson/index.json": {}
       },
@@ -210,7 +212,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.101/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.102\\RuntimeIdentifierGraph.json"
       }
     }
   }

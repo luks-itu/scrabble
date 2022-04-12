@@ -8,3 +8,13 @@
 /Users/lukasstage/Documents/macstuff/functional programming/git/scrabble/ScrabbleTemplate/ScrabbleBot/obj/Debug/net6.0/ScrabbleBot.fsproj.CopyComplete
 /Users/lukasstage/Documents/macstuff/functional programming/git/scrabble/ScrabbleTemplate/ScrabbleBot/obj/Debug/net6.0/ScrabbleBot.dll
 /Users/lukasstage/Documents/macstuff/functional programming/git/scrabble/ScrabbleTemplate/ScrabbleBot/obj/Debug/net6.0/ScrabbleBot.pdb
+C:\Users\mgerv\Desktop\ITU\4_sem\BFUP\scrabble\ScrabbleTemplate\ScrabbleBot\bin\Debug\net6.0\ScrabbleBot.deps.json
+C:\Users\mgerv\Desktop\ITU\4_sem\BFUP\scrabble\ScrabbleTemplate\ScrabbleBot\bin\Debug\net6.0\ScrabbleBot.dll
+C:\Users\mgerv\Desktop\ITU\4_sem\BFUP\scrabble\ScrabbleTemplate\ScrabbleBot\bin\Debug\net6.0\ScrabbleBot.pdb
+C:\Users\mgerv\Desktop\ITU\4_sem\BFUP\scrabble\ScrabbleTemplate\ScrabbleBot\bin\Debug\net6.0\ScrabbleUtil.dll
+C:\Users\mgerv\Desktop\ITU\4_sem\BFUP\scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net6.0\ScrabbleBot.fsproj.AssemblyReference.cache
+C:\Users\mgerv\Desktop\ITU\4_sem\BFUP\scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net6.0\ScrabbleBot.AssemblyInfoInputs.cache
+C:\Users\mgerv\Desktop\ITU\4_sem\BFUP\scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net6.0\ScrabbleBot.AssemblyInfo.fs
+C:\Users\mgerv\Desktop\ITU\4_sem\BFUP\scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net6.0\ScrabbleBot.fsproj.CopyComplete
+C:\Users\mgerv\Desktop\ITU\4_sem\BFUP\scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net6.0\ScrabbleBot.dll
+C:\Users\mgerv\Desktop\ITU\4_sem\BFUP\scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net6.0\ScrabbleBot.pdb

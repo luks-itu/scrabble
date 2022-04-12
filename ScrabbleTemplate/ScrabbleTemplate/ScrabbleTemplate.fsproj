@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Dictionary\Dictionary.fsproj" />
     <ProjectReference Include="..\ScrabbleBot\ScrabbleBot.fsproj" />
   </ItemGroup>
 

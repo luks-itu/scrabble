@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "dgSpecHash": "5y4GttemNW9sgSdw9q5hq4FH6NQSalyWNxA9McpcGQjvpKMfxsmcpSZTHUQD73vOOIWmp/7HJolUbCx0oPtdWw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\mgerv\\Desktop\\ITU\\4_sem\\BFUP\\scrabble\\ScrabbleTemplate\\Dictionary\\Dictionary.fsproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\mgerv\\.nuget\\packages\\fsharp.core\\6.0.1\\fsharp.core.6.0.1.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Your request could not be authenticated by the GitHub Packages service. Please ensure your access token is valid and has the appropriate scopes configured."
+    },
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Your request could not be authenticated by the GitHub Packages service. Please ensure your access token is valid and has the appropriate scopes configured."
+    },
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Your request could not be authenticated by the GitHub Packages service. Please ensure your access token is valid and has the appropriate scopes configured."
+    }
+  ]
+}

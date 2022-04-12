@@ -48,15 +48,14 @@ let main argv =
 
     let dictAPI =
         // Uncomment if you have implemented a dictionary. last element None if you have not implemented a GADDAG
-        // Some (Dictionary.empty, Dictionary.insert, Dictionary.step, Some Dictionary.reverse) 
-        None
+        Some (Dictionary.empty, Dictionary.insert, Dictionary.step, None) 
+        // None
 
-    // Uncomment this line to call your client
     let (dictionary, time) =
         time (fun () -> ScrabbleUtil.Dictionary.mkDict words dictAPI)
-    let players    = [("The Svensson", dictionary, Oxyphenbutazone.Scrabble.startGame)]
+    // Uncomment this line to call your client
+    let players    = [("FSkarpBot", dictionary, FSkarp.Scrabble.startGame)]
     //let players = spawnMultiples "OxyphenButazone" dictionary Oxyphenbutazone.Scrabble.startGame 4
-
 
     do ScrabbleServer.Comm.startGame 
         board dictionary handSize timeout tiles seed port players
