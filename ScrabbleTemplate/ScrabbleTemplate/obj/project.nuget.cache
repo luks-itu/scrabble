@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+9yOP+iTZVrquZn98XgKqxajz8INcuZmhQPBTL9H3myr/SIFIx7ATD0UEFArp9wqZLBp7dvGvyAyWl1hFrOO1w==",
+  "dgSpecHash": "O0djUwvrwA4MN2XJg5XudgV/Q8/Qc+p1H70zj+yFsdvLrEdZrdx/RWQuXfptiTBimqd+0ywo2ICmbq71+VfIFQ==",
   "success": true,
-  "projectFilePath": "/Users/lukasstage/Documents/macstuff/functional programming/git/scrabble/ScrabbleTemplate/ScrabbleTemplate/ScrabbleTemplate.fsproj",
+  "projectFilePath": "/Users/lukasstage/Documents/macstuff/functional_programming/git/scrabble/ScrabbleTemplate/ScrabbleTemplate/ScrabbleTemplate.fsproj",
   "expectedPackageFiles": [
     "/Users/lukasstage/.nuget/packages/fparsec/1.1.1/fparsec.1.1.1.nupkg.sha512",
     "/Users/lukasstage/.nuget/packages/fsharp.core/6.0.3/fsharp.core.6.0.3.nupkg.sha512",

@@ -917,11 +917,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/lukasstage/Documents/macstuff/functional programming/git/scrabble/ScrabbleTemplate/ScrabbleTemplate/ScrabbleTemplate.fsproj",
+      "projectUniqueName": "/Users/lukasstage/Documents/macstuff/functional_programming/git/scrabble/ScrabbleTemplate/ScrabbleTemplate/ScrabbleTemplate.fsproj",
       "projectName": "ScrabbleTemplate",
-      "projectPath": "/Users/lukasstage/Documents/macstuff/functional programming/git/scrabble/ScrabbleTemplate/ScrabbleTemplate/ScrabbleTemplate.fsproj",
+      "projectPath": "/Users/lukasstage/Documents/macstuff/functional_programming/git/scrabble/ScrabbleTemplate/ScrabbleTemplate/ScrabbleTemplate.fsproj",
       "packagesPath": "/Users/lukasstage/.nuget/packages/",
-      "outputPath": "/Users/lukasstage/Documents/macstuff/functional programming/git/scrabble/ScrabbleTemplate/ScrabbleTemplate/obj/",
+      "outputPath": "/Users/lukasstage/Documents/macstuff/functional_programming/git/scrabble/ScrabbleTemplate/ScrabbleTemplate/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/lukasstage/.nuget/NuGet/NuGet.Config"
@@ -937,8 +937,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "/Users/lukasstage/Documents/macstuff/functional programming/git/scrabble/ScrabbleTemplate/ScrabbleBot/ScrabbleBot.fsproj": {
-              "projectPath": "/Users/lukasstage/Documents/macstuff/functional programming/git/scrabble/ScrabbleTemplate/ScrabbleBot/ScrabbleBot.fsproj"
+            "/Users/lukasstage/Documents/macstuff/functional_programming/git/scrabble/ScrabbleTemplate/ScrabbleBot/ScrabbleBot.fsproj": {
+              "projectPath": "/Users/lukasstage/Documents/macstuff/functional_programming/git/scrabble/ScrabbleTemplate/ScrabbleBot/ScrabbleBot.fsproj"
             }
           }
         }
