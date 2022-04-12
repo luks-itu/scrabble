@@ -52,15 +52,14 @@ let main argv =
         None
 
     // Uncomment this line to call your client
-    // let players    = [("The Svensson", FSkarp.Scrabble.startGame)]
     let (dictionary, time) =
         time (fun () -> ScrabbleUtil.Dictionary.mkDict words dictAPI)
-        
-    let players = spawnMultiples "OxyphenButazone" dictionary Oxyphenbutazone.Scrabble.startGame 4
+    let players    = [("The Svensson", dictionary, Oxyphenbutazone.Scrabble.startGame)]
+    //let players = spawnMultiples "OxyphenButazone" dictionary Oxyphenbutazone.Scrabble.startGame 4
 
 
     do ScrabbleServer.Comm.startGame 
-          board dictionary handSize timeout tiles seed port players
+        board dictionary handSize timeout tiles seed port players
     
     ScrabbleUtil.DebugPrint.forcePrint ("Server has terminated. Press Enter to exit program.\n")
     System.Console.ReadLine () |> ignore
