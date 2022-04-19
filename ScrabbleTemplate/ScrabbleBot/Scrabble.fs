@@ -46,17 +46,23 @@ module State =
         dict          : ScrabbleUtil.Dictionary.Dict
         playerNumber  : uint32
         hand          : MultiSet.MultiSet<uint32>
+        numPlayer     : uint32
+        playerTurn    : uint32
     }
 
-    let mkState b d pn h = {board = b; dict = d;  playerNumber = pn; hand = h }
+    let mkState b d pn h n t =
+        {board = b; dict = d;  playerNumber = pn; hand = h; numPlayer = n; playerTurn = t; }
 
     let board st         = st.board
     let dict st          = st.dict
     let playerNumber st  = st.playerNumber
     let hand st          = st.hand
+    let numPlayer st     = st.numPlayer 
+    let playerTurn st    = st.playerTurn
 
 module Scrabble =
     open System.Threading
+    open MultiSet
 
     let playGame cstream pieces (st : State.state) =
 
@@ -77,7 +83,28 @@ module Scrabble =
             match msg with
             | RCM (CMPlaySuccess(ms, points, newPieces)) ->
                 (* Successful play by you. Update your state (remove old tiles, add the new ones, change turn, etc) *)
-                let st' = st // This state needs to be updated
+                // Remove played pieces from hand (based on `ms`)
+                (*
+                performMove = fun ->
+                    fold (* on each tile *) (
+                        place tile on board
+                        remove tile from hand
+                    )
+                *)
+                // Add `newPieces` to hand (based on `newPieces`)
+                (*
+                addNewTilesToHand = fun ->
+                    fold (* on `newPieces ` *) (
+                        add add tile to hand
+                    )
+                *)
+                (*
+                let st' = st |> performMove |> addNewTilesToHand
+                *)
+                //greatest line of code EVER
+                let (newHand : MultiSet<uint32>) = List.fold (fun acc (_, (k: uint32 * (char * int))) -> MultiSet.removeSingle (fst(k)) acc) st.hand ms
+                let (newHandSet : MultiSet<uint32>) = List.fold (fun acc (x, k) -> MultiSet.add x k acc) newHand []
+                let st' = {st with hand = newHandSet} // This state needs to be updated
                 aux st'
             | RCM (CMPlayed (pid, ms, points)) ->
                 (* Successful play by other player. Update your state *)
@@ -118,5 +145,5 @@ module Scrabble =
                   
         let handSet = List.fold (fun acc (x, k) -> MultiSet.add x k acc) MultiSet.empty hand
 
-        fun () -> playGame cstream tiles (State.mkState board dict playerNumber handSet)
+        fun () -> playGame cstream tiles (State.mkState board dict playerNumber handSet numPlayers playerTurn)
         
