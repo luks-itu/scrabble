@@ -175,7 +175,7 @@ module Scrabble =
             | c -> Dictionary.step c
             | ' ' -> ' '
 
-    let makeWord c hand : string = "placeholder"
+    let makeWord c state : string = "placeholder"
 
     let canInsertWord (word : string) (pos : coord) (st : State.state) = true
 
@@ -187,8 +187,7 @@ module Scrabble =
                         |(coord,pieces)::tail  when (canMakeWord (fst(pieces)) (State.hand st) st) && (canInsertWord (makeWord (fst(pieces)) (State.hand st)) coord st) -> fst(pieces)
                         |_::tail -> aux(tail) st 
                         |[]      -> ' '
-        let result = aux chars st
-        result
+        aux chars st
 
 *)
         
