@@ -54,8 +54,12 @@ let main argv =
     let (dictionary, time) =
         time (fun () -> ScrabbleUtil.Dictionary.mkDict words dictAPI)
     // Uncomment this line to call your client
-    let players    = [("FSkarpBot", dictionary, FSkarp.Scrabble.startGame)]
-    //let players = spawnMultiples "OxyphenButazone" dictionary Oxyphenbutazone.Scrabble.startGame 4
+    let players =
+        [("FSkarpBot", dictionary, FSkarp.Scrabble.startGame);
+        ("OBBot", dictionary, Oxyphenbutazone.Scrabble.startGame)]
+    //let players =
+    //  spawnMultiples "FSkarpBot" dictionary FSkarp.Scrabble.startGame 2
+    //let players = spawnMultiples "OxyphenButazone" dictionary Oxyphenbutazone.Scrabble.startGame 2
 
     do ScrabbleServer.Comm.startGame 
         board dictionary handSize timeout tiles seed port players

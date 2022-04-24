@@ -41,17 +41,22 @@ module State =
     // but it could, potentially, keep track of other useful
     // information, such as number of players, player turn, etc.
 
+    //for currentBoard
+    type pieces =  (char*int)
+
+
     type state = {
         board         : Parser.board
-        dict          : ScrabbleUtil.Dictionary.Dict
+        dict          : ScrabbleUtil.Dictionary.Dict //ScrabbleUtil.Dictionary.Dict  <--- if you need it back
         playerNumber  : uint32
         hand          : MultiSet.MultiSet<uint32>
         numPlayer     : uint32
         playerTurn    : uint32
+        currentBoard  : Map<coord,pieces>
     }
 
     let mkState b d pn h n t =
-        {board = b; dict = d;  playerNumber = pn; hand = h; numPlayer = n; playerTurn = t; }
+        {board = b; dict = d;  playerNumber = pn; hand = h; numPlayer = n; playerTurn = t; currentBoard = Map.empty  }
 
     let board st         = st.board
     let dict st          = st.dict
@@ -59,6 +64,8 @@ module State =
     let hand st          = st.hand
     let numPlayer st     = st.numPlayer 
     let playerTurn st    = st.playerTurn
+    let currentBoard st  = st.currentBoard
+    
 
 module Scrabble =
     open System.Threading
@@ -69,48 +76,64 @@ module Scrabble =
         let rec aux (st : State.state) =
             Print.printHand pieces (State.hand st)
 
-            // remove the force print when you move on from manual input (or when you have learnt the format)
-            forcePrint "Input move (format '(<x-coordinate> <y-coordinate> <piece id><character><point-value> )*', note the absence of space between the last inputs)\n\n"
-            let input =  System.Console.ReadLine()
-            let move = RegEx.parseMove input
+            let nextTurn = 
+                let next = st.playerTurn + 1u
+                if next = (st.numPlayer+1u) then 1u else next     
 
-            debugPrint (sprintf "Player %d -> Server:\n%A\n" (State.playerNumber st) move) // keep the debug lines. They are useful.
-            send cstream (SMPlay move)
+            //check if our turn
+            let ourTurn (playerNumber : uint32) (playerTurn : uint32) =  
+                if playerNumber = playerTurn then true else false
+            //only request and make move if our turn
+            if (ourTurn st.playerNumber st.playerTurn) then 
+                // remove the force print when you move on from manual input (or when you have learnt the format)
+                forcePrint "Input move (format '(<x-coordinate> <y-coordinate> <piece id><character><point-value> )*', note the absence of space between the last inputs)\n\n"
+                let input =  System.Console.ReadLine()
+                let move = RegEx.parseMove input //findMove(State)
+                    
+                debugPrint(sprintf "Current turn: %A, PlayerNumber: %A, PlayerTurn: %A" ourTurn st.playerNumber st.playerTurn)
+                //method for setting next turn
 
+                debugPrint (sprintf "Player %d -> Server:\n%A\n" (State.playerNumber st) move) // keep the debug lines. They are useful.
+        
+                send cstream (SMPlay move)
+            
             let msg = recv cstream
-            debugPrint (sprintf "Player %d <- Server:\n%A\n" (State.playerNumber st) move) // keep the debug lines. They are useful.
-
+            debugPrint (sprintf "Player %d <- Server:\nJust listening\n" (State.playerNumber st)) // keep the debug lines. They are useful.
+            
             match msg with
             | RCM (CMPlaySuccess(ms, points, newPieces)) ->
-                (* Successful play by you. Update your state (remove old tiles, add the new ones, change turn, etc) *)
-                // Remove played pieces from hand (based on `ms`)
-                (*
-                performMove = fun ->
-                    fold (* on each tile *) (
-                        place tile on board
-                        remove tile from hand
-                    )
-                *)
-                // Add `newPieces` to hand (based on `newPieces`)
-                (*
-                addNewTilesToHand = fun ->
-                    fold (* on `newPieces ` *) (
-                        add add tile to hand
-                    )
-                *)
-                (*
-                let st' = st |> performMove |> addNewTilesToHand
-                *)
+                (* Successful play by you. Update your state (change turn, etc) *)
+
+                let newBoard =
+                    List.fold  (fun acc (c, k) ->
+                        Map.add c (snd(k)) acc) st.currentBoard ms
                 //greatest line of code EVER
-                let (newHand : MultiSet<uint32>) = List.fold (fun acc (_, (k: uint32 * (char * int))) -> MultiSet.removeSingle (fst(k)) acc) st.hand ms
-                let (newHandSet : MultiSet<uint32>) = List.fold (fun acc (x, k) -> MultiSet.add x k acc) newHand []
-                let st' = {st with hand = newHandSet} // This state needs to be updated
+                //removing tiles from hand
+                let (newHand : MultiSet<uint32>) =
+                    List.fold (fun acc (_, (k: uint32 * (char * int))) ->
+                        MultiSet.removeSingle (fst(k)) acc) st.hand ms
+
+                // adds newPieces to handset
+                let (newHandSet : MultiSet<uint32>) =
+                    List.fold (fun acc (x, k) ->
+                        MultiSet.add x k acc) newHand newPieces
+
+                //updates hand & board & turn
+                let st' = {st with hand = newHandSet; currentBoard = newBoard; playerTurn = nextTurn}
+ 
+                debugPrint(sprintf "Map of current board: %A\n" st'.currentBoard)
+                
                 aux st'
             | RCM (CMPlayed (pid, ms, points)) ->
                 (* Successful play by other player. Update your state *)
-                let st' = st // This state needs to be updated
+                //updates state to reflect new move
+                let newBoard =
+                    List.fold  (fun acc (c, k) ->
+                        Map.add c (snd(k)) acc) st.currentBoard ms
+                let st' = {st with currentBoard = newBoard; playerTurn = nextTurn} 
                 aux st'
             | RCM (CMPlayFailed (pid, ms)) ->
+                //ignore this evil comment
                 (* Failed play. Update your state *)
                 let st' = st // This state needs to be updated
                 aux st'
@@ -142,8 +165,38 @@ module Scrabble =
         //let dict = dictf true // Uncomment if using a gaddag for your dictionary
         let dict = dictf false // Uncomment if using a trie for your dictionary
         let board = Parser.mkBoard boardP
-                  
         let handSet = List.fold (fun acc (x, k) -> MultiSet.add x k acc) MultiSet.empty hand
 
         fun () -> playGame cstream tiles (State.mkState board dict playerNumber handSet numPlayers playerTurn)
+(*
+    let canMakeWord (c : char) (hand : MultiSet.MultiSet<uint32>) (st: State.state) =
+        let rec aux c = 
+            match c with
+            | c -> Dictionary.step c
+            | ' ' -> ' '
+
+    let makeWord c hand : string = "placeholder"
+
+    let canInsertWord (word : string) (pos : coord) (st : State.state) = true
+
+    //worst code EVER
+    let FindMove (st : State.state) = 
+        let chars = State.currentBoard st |> Map.toSeq |> List.ofSeq;
+        let rec aux (chars:list<coord * State.pieces>) st = 
+                        match chars with
+                        |(coord,pieces)::tail  when (canMakeWord (fst(pieces)) (State.hand st) st) && (canInsertWord (makeWord (fst(pieces)) (State.hand st)) coord st) -> fst(pieces)
+                        |_::tail -> aux(tail) st 
+                        |[]      -> ' '
+        let result = aux chars st
+        result
+
+*)
         
+    //for each, check if use can use it as first character in word, using your available tiles in hand and the dictionary
+    
+    // if you can create word check if the necessary number of tiles are available horisontally or vertically
+
+    //if so, insert the words from hand and return
+
+    //otherwise, if false and end of list, return change request
+    
