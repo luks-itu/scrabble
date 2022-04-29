@@ -53,10 +53,11 @@ module State =
         numPlayer     : uint32
         playerTurn    : uint32
         currentBoard  : Map<coord,pieces>
+        tiles         : Map<uint32, tile> //We assume tiles in the lookup table
     }
 
-    let mkState b d pn h n t =
-        {board = b; dict = d;  playerNumber = pn; hand = h; numPlayer = n; playerTurn = t; currentBoard = Map.empty  }
+    let mkState b d pn h n t l =
+        {board = b; dict = d;  playerNumber = pn; hand = h; numPlayer = n; playerTurn = t; currentBoard = Map.empty; tiles = l }
 
     let board st         = st.board
     let dict st          = st.dict
@@ -167,29 +168,76 @@ module Scrabble =
         let board = Parser.mkBoard boardP
         let handSet = List.fold (fun acc (x, k) -> MultiSet.add x k acc) MultiSet.empty hand
 
-        fun () -> playGame cstream tiles (State.mkState board dict playerNumber handSet numPlayers playerTurn)
-(*
-    let canMakeWord (c : char) (hand : MultiSet.MultiSet<uint32>) (st: State.state) =
-        let rec aux c = 
-            match c with
-            | c -> Dictionary.step c
-            | ' ' -> ' '
+        fun () -> playGame cstream tiles (State.mkState board dict playerNumber handSet numPlayers playerTurn tiles)
+        
+    let makeWord c (st:State.state) : string =
+        let handList = toList st.hand
+        let remainingChars = handList.Length
+        let rec aux (c : char) dict (currentWord : string) (handList:List<uint32>) (remainingChars:int) =
+            let current = currentWord+(c.ToString())
+            match Dictionary.step c dict with
+            | Some x -> 
+                match fst(x) with
+                | true -> current 
+                | false ->
+                    if (remainingChars = 0) then " " 
+                    else
+                        let newC = Map.find handList[0] st.tiles
+                        let c = fst(newC.MaximumElement)
+                        let newHandList = handList[1..]
+                        let remaining = remainingChars-1
+                        aux c (snd(x)) current newHandList remaining
+            | None ->
+                    if (remainingChars = 0) then " "
+                    else
+                        let newC = Map.find handList[0] st.tiles
+                        let c = fst(newC.MaximumElement)
+                        let newHandList = handList[1..]
+                        let remaining = remainingChars-1
+                        aux c dict current newHandList remaining
+            
+        aux c (st.dict) "" handList remainingChars
+    
+    let insertWord (input : (((char) * (int * int)) * State.state))   =
+        let c = fst(fst(input))
+        let pos = snd(fst(input))
+        let st = snd(input)
+        //if input is equal to " " for first tuple, dont change state but request new hand)
+        //otherwise update state, with removing tile from hand and new coord on board and signal server correctly
+        st
+        //remove tiles from hand, and insert on coord in currentBoard
 
-    let makeWord c state : string = "placeholder"
+    let canMakeWord (c : char)  (st: State.state) =
+        match makeWord c st with
+        | "" -> false
+        | _  -> true
 
-    let canInsertWord (word : string) (pos : coord) (st : State.state) = true
-
-    //worst code EVER
+    let rec canInsertWord (word : string) (pos : coord as (x,y)) (st : State.state) = 
+        let lengthOfInput = word.Length-1
+        if (lengthOfInput = 0) then true else
+                let newCoord = (x,(y+lengthOfInput))
+                match Map.tryFind newCoord st.currentBoard with
+                | Some x -> false
+                | None   -> canInsertWord (word[0..(word.Length-2)]) pos st
+    
+    //if it works, it works
     let FindMove (st : State.state) = 
-        let chars = State.currentBoard st |> Map.toSeq |> List.ofSeq;
+        let chars = State.currentBoard st |> Map.toSeq |> List.ofSeq; 
+        // each entry in the list looks as follows: [(int*int), (char*int)] 
+        // here (int*int) is coord, (char*int) is piece
         let rec aux (chars:list<coord * State.pieces>) st = 
                         match chars with
-                        |(coord,pieces)::tail  when (canMakeWord (fst(pieces)) (State.hand st) st) && (canInsertWord (makeWord (fst(pieces)) (State.hand st)) coord st) -> fst(pieces)
-                        |_::tail -> aux(tail) st 
-                        |[]      -> ' '
+                        | (coord,pieces)::tail when
+                                              (canMakeWord (fst(pieces))  st) &&
+                                              (canInsertWord (makeWord (fst(pieces)) (st)) coord st)
+                                              -> (fst(pieces),coord),st 
+                        | _::tail -> aux(tail) st 
+                        | []      -> (' ',  (0,0)), st
         aux chars st
 
-*)
+    //program 
+    //let st' = insertWord(FindMove(st))
+
         
     //for each, check if use can use it as first character in word, using your available tiles in hand and the dictionary
     
