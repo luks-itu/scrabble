@@ -18,3 +18,13 @@ C:\Users\mgerv\Desktop\ITU\4_sem\BFUP\scrabble\ScrabbleTemplate\ScrabbleBot\obj\
 C:\Users\mgerv\Desktop\ITU\4_sem\BFUP\scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net6.0\ScrabbleBot.fsproj.CopyComplete
 C:\Users\mgerv\Desktop\ITU\4_sem\BFUP\scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net6.0\ScrabbleBot.dll
 C:\Users\mgerv\Desktop\ITU\4_sem\BFUP\scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net6.0\ScrabbleBot.pdb
+C:\Users\lukas\Documents\git\scrabble\scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net6.0\ScrabbleBot.fsproj.AssemblyReference.cache
+C:\Users\lukas\Documents\git\scrabble\scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net6.0\ScrabbleBot.AssemblyInfoInputs.cache
+C:\Users\lukas\Documents\git\scrabble\scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net6.0\ScrabbleBot.AssemblyInfo.fs
+C:\Users\lukas\Documents\git\scrabble\scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net6.0\ScrabbleBot.dll
+C:\Users\lukas\Documents\git\scrabble\scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net6.0\ScrabbleBot.pdb
+C:\Users\lukas\Documents\git\scrabble\scrabble\ScrabbleTemplate\ScrabbleBot\bin\Debug\net6.0\ScrabbleBot.deps.json
+C:\Users\lukas\Documents\git\scrabble\scrabble\ScrabbleTemplate\ScrabbleBot\bin\Debug\net6.0\ScrabbleBot.dll
+C:\Users\lukas\Documents\git\scrabble\scrabble\ScrabbleTemplate\ScrabbleBot\bin\Debug\net6.0\ScrabbleBot.pdb
+C:\Users\lukas\Documents\git\scrabble\scrabble\ScrabbleTemplate\ScrabbleBot\bin\Debug\net6.0\ScrabbleUtil.dll
+C:\Users\lukas\Documents\git\scrabble\scrabble\ScrabbleTemplate\ScrabbleBot\obj\Debug\net6.0\ScrabbleBot.fsproj.CopyComplete

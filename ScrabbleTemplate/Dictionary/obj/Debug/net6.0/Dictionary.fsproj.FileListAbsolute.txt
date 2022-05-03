@@ -6,3 +6,11 @@ C:\Users\mgerv\Desktop\ITU\4_sem\BFUP\scrabble\ScrabbleTemplate\Dictionary\obj\D
 C:\Users\mgerv\Desktop\ITU\4_sem\BFUP\scrabble\ScrabbleTemplate\Dictionary\obj\Debug\net6.0\Dictionary.AssemblyInfo.fs
 C:\Users\mgerv\Desktop\ITU\4_sem\BFUP\scrabble\ScrabbleTemplate\Dictionary\obj\Debug\net6.0\Dictionary.dll
 C:\Users\mgerv\Desktop\ITU\4_sem\BFUP\scrabble\ScrabbleTemplate\Dictionary\obj\Debug\net6.0\Dictionary.pdb
+C:\Users\lukas\Documents\git\scrabble\scrabble\ScrabbleTemplate\Dictionary\bin\Debug\net6.0\Dictionary.deps.json
+C:\Users\lukas\Documents\git\scrabble\scrabble\ScrabbleTemplate\Dictionary\bin\Debug\net6.0\Dictionary.dll
+C:\Users\lukas\Documents\git\scrabble\scrabble\ScrabbleTemplate\Dictionary\bin\Debug\net6.0\Dictionary.pdb
+C:\Users\lukas\Documents\git\scrabble\scrabble\ScrabbleTemplate\Dictionary\obj\Debug\net6.0\Dictionary.fsproj.AssemblyReference.cache
+C:\Users\lukas\Documents\git\scrabble\scrabble\ScrabbleTemplate\Dictionary\obj\Debug\net6.0\Dictionary.AssemblyInfoInputs.cache
+C:\Users\lukas\Documents\git\scrabble\scrabble\ScrabbleTemplate\Dictionary\obj\Debug\net6.0\Dictionary.AssemblyInfo.fs
+C:\Users\lukas\Documents\git\scrabble\scrabble\ScrabbleTemplate\Dictionary\obj\Debug\net6.0\Dictionary.dll
+C:\Users\lukas\Documents\git\scrabble\scrabble\ScrabbleTemplate\Dictionary\obj\Debug\net6.0\Dictionary.pdb
