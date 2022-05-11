@@ -503,7 +503,37 @@ module Scrabble =
                         |[]     -> true
                     helper x
         (adjancency pos lst st) && (aux lst st)
-        
+    let canVertical (w:string option) (pos:coord) (st:State.state) =
+        match w with
+            |None  -> false
+            |Some word ->
+                let rec aux count pos =
+                    if count = 0 then true
+                    else
+                        let next = fst(pos),snd(pos)+1
+                        let nextExists = Map.tryFind next st.currentBoard
+                        match nextExists with
+                        |Some _ -> false
+                        |None -> 
+                            let count = count - 1
+                            aux count next
+                aux (word.Length) pos
+
+    let canHorisontal (w:string option) (pos:coord) (st:State.state) =
+        match w with
+            |None  -> false
+            |Some word ->
+                let rec aux count pos =
+                    if count = 0 then true
+                    else
+                        let next = fst(pos)+1,snd(pos)
+                        let nextExists = Map.tryFind next st.currentBoard
+                        match nextExists with
+                        |Some _ -> false
+                        |None -> 
+                            let count = count - 1
+                            aux count next
+                aux (word.Length) pos
 
     let rec canInsertWordVertical (word : string option) (pos : coord as (x,y)) (st : State.state) =
         debugPrint(sprintf "Inside canInsertWordVertical. checking if can insert word: %A vertically, with starting position: %A \n" word pos)
@@ -690,7 +720,7 @@ module Scrabble =
             else
                 debugPrint (sprintf "Inside insertWord. I claim that board is NOT empty \n" )
                 let tiles =  getTilesFromWord c st false
-                if canInsertWordVertical (makeWord c st) pos st then 
+                if canVertical (makeWord c st) pos st then 
                     debugPrint (sprintf "trying to insert vertically (insert word)\n" )
                     let coords = coordList (getWord c (st: State.state)) false 'v' pos
                     debugPrint (sprintf "coords length: %A, tiles length: %A\n" coords.Length tiles.Length)
@@ -734,10 +764,10 @@ module Scrabble =
                 | (coord,pieces)::tail when
                     (canMakeWord (fst(pieces)) st) && ((getWord (fst(pieces)) st).Length > 1) &&
                     (
-                        ((canInsertWordVertical (makeWord (fst(pieces)) (st)) coord st) &&
+                        ((canVertical (makeWord (fst(pieces)) (st)) coord st) &&
                         (adjacencyFinal coord (insertWord ((fst(pieces),coord),st)) st))
                         ||
-                        ((canInsertWordHorisontal (makeWord (fst(pieces)) (st)) coord st) &&
+                        ((canHorisontal (makeWord (fst(pieces)) (st)) coord st) &&
                         (adjacencyFinal coord (insertWord ((fst(pieces),coord),st)) st))
                     )
                           -> (fst(pieces), coord),st 
