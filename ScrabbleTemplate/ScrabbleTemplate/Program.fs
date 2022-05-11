@@ -27,8 +27,8 @@ let main argv =
     System.Console.Clear()
 
 
-    let board        = ScrabbleUtil.StandardBoard.standardBoard ()
-//    let board      = ScrabbleUtil.InfiniteBoard.infiniteBoard ()
+    //let board        = ScrabbleUtil.StandardBoard.standardBoard ()
+    let board      = ScrabbleUtil.InfiniteBoard.infiniteBoard ()
 
 //    let board      = ScrabbleUtil.RandomBoard.randomBoard ()
 //    let board      = ScrabbleUtil.RandomBoard.randomBoardSeed (Some 42)
@@ -56,8 +56,9 @@ let main argv =
     // Uncomment this line to call your client
     let players =
         [("FSkarpBot", dictionary, FSkarp.Scrabble.startGame);
-        ("OBBot", dictionary, Oxyphenbutazone.Scrabble.startGame)]
+      ("OBBot", dictionary, Oxyphenbutazone.Scrabble.startGame) ]
     //let players =
+    //("OBBot", dictionary, Oxyphenbutazone.Scrabble.startGame)
     //  spawnMultiples "FSkarpBot" dictionary FSkarp.Scrabble.startGame 2
     //let players = spawnMultiples "OxyphenButazone" dictionary Oxyphenbutazone.Scrabble.startGame 2
 

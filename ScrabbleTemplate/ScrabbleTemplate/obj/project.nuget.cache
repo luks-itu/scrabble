@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "AWoRI68Q7qEwi6jhIMLXSj3r0zjHA07kBcpE8Pv5ejy+d6Mnv/sH4oPd9eKobNmyZS6cEkU80EpadrpWSAkEgQ==",
+  "dgSpecHash": "Tv1ZMFpumCJCaxS1SRZhEOJnFJfmbqZRyFLXIPWGrZHUh9l6e3LWCOOHbl397VxnP3/x0nH/82yRR+UMgVP0JQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\lukas\\Documents\\git\\scrabble\\scrabble\\ScrabbleTemplate\\ScrabbleTemplate\\ScrabbleTemplate.fsproj",
+  "projectFilePath": "C:\\Users\\lukas\\Documents\\vscode\\repos\\scrabble\\scrabble\\ScrabbleTemplate\\ScrabbleTemplate\\ScrabbleTemplate.fsproj",
   "expectedPackageFiles": [
     "C:\\Users\\lukas\\.nuget\\packages\\fparsec\\1.1.1\\fparsec.1.1.1.nupkg.sha512",
     "C:\\Users\\lukas\\.nuget\\packages\\fsharp.core\\6.0.3\\fsharp.core.6.0.3.nupkg.sha512",

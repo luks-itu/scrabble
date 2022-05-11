@@ -119,11 +119,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\lukas\\Documents\\git\\scrabble\\scrabble\\ScrabbleTemplate\\Dictionary\\Dictionary.fsproj",
+      "projectUniqueName": "C:\\Users\\lukas\\Documents\\vscode\\repos\\scrabble\\scrabble\\ScrabbleTemplate\\Dictionary\\Dictionary.fsproj",
       "projectName": "Dictionary",
-      "projectPath": "c:\\Users\\lukas\\Documents\\git\\scrabble\\scrabble\\ScrabbleTemplate\\Dictionary\\Dictionary.fsproj",
+      "projectPath": "C:\\Users\\lukas\\Documents\\vscode\\repos\\scrabble\\scrabble\\ScrabbleTemplate\\Dictionary\\Dictionary.fsproj",
       "packagesPath": "C:\\Users\\lukas\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\lukas\\Documents\\git\\scrabble\\scrabble\\ScrabbleTemplate\\Dictionary\\obj\\",
+      "outputPath": "C:\\Users\\lukas\\Documents\\vscode\\repos\\scrabble\\scrabble\\ScrabbleTemplate\\Dictionary\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
