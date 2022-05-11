@@ -1,27 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "/Users/lukasstage/Documents/repos/bfup/scrabble/ScrabbleTemplate/ScrabbleTemplate/ScrabbleTemplate.fsproj": {}
+    "C:\\Users\\lukas\\Documents\\vscode\\repos\\scrabble\\scrabble\\ScrabbleTemplate\\ScrabbleTemplate\\ScrabbleTemplate.fsproj": {}
   },
   "projects": {
-    "/Users/lukasstage/Documents/repos/bfup/scrabble/ScrabbleTemplate/Dictionary/Dictionary.fsproj": {
+    "C:\\Users\\lukas\\Documents\\vscode\\repos\\scrabble\\scrabble\\ScrabbleTemplate\\Dictionary\\Dictionary.fsproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/lukasstage/Documents/repos/bfup/scrabble/ScrabbleTemplate/Dictionary/Dictionary.fsproj",
+        "projectUniqueName": "C:\\Users\\lukas\\Documents\\vscode\\repos\\scrabble\\scrabble\\ScrabbleTemplate\\Dictionary\\Dictionary.fsproj",
         "projectName": "Dictionary",
-        "projectPath": "/Users/lukasstage/Documents/repos/bfup/scrabble/ScrabbleTemplate/Dictionary/Dictionary.fsproj",
-        "packagesPath": "/Users/lukasstage/.nuget/packages/",
-        "outputPath": "/Users/lukasstage/Documents/repos/bfup/scrabble/ScrabbleTemplate/Dictionary/obj/",
+        "projectPath": "C:\\Users\\lukas\\Documents\\vscode\\repos\\scrabble\\scrabble\\ScrabbleTemplate\\Dictionary\\Dictionary.fsproj",
+        "packagesPath": "C:\\Users\\lukas\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\lukas\\Documents\\vscode\\repos\\scrabble\\scrabble\\ScrabbleTemplate\\Dictionary\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/lukasstage/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\lukas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nuget.pkg.github.com/jesper-bengtson/index.json": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
@@ -37,7 +42,7 @@
             "FSharp.Core": {
               "include": "Runtime, Compile, Build, Native, Analyzers, BuildTransitive",
               "target": "Package",
-              "version": "[6.0.1, )",
+              "version": "[6.0.2, )",
               "generatePathProperty": true
             }
           },
@@ -56,28 +61,33 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.101/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/lukasstage/Documents/repos/bfup/scrabble/ScrabbleTemplate/ScrabbleBot/ScrabbleBot.fsproj": {
+    "C:\\Users\\lukas\\Documents\\vscode\\repos\\scrabble\\scrabble\\ScrabbleTemplate\\ScrabbleBot\\ScrabbleBot.fsproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/lukasstage/Documents/repos/bfup/scrabble/ScrabbleTemplate/ScrabbleBot/ScrabbleBot.fsproj",
+        "projectUniqueName": "C:\\Users\\lukas\\Documents\\vscode\\repos\\scrabble\\scrabble\\ScrabbleTemplate\\ScrabbleBot\\ScrabbleBot.fsproj",
         "projectName": "ScrabbleBot",
-        "projectPath": "/Users/lukasstage/Documents/repos/bfup/scrabble/ScrabbleTemplate/ScrabbleBot/ScrabbleBot.fsproj",
-        "packagesPath": "/Users/lukasstage/.nuget/packages/",
-        "outputPath": "/Users/lukasstage/Documents/repos/bfup/scrabble/ScrabbleTemplate/ScrabbleBot/obj/",
+        "projectPath": "C:\\Users\\lukas\\Documents\\vscode\\repos\\scrabble\\scrabble\\ScrabbleTemplate\\ScrabbleBot\\ScrabbleBot.fsproj",
+        "packagesPath": "C:\\Users\\lukas\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\lukas\\Documents\\vscode\\repos\\scrabble\\scrabble\\ScrabbleTemplate\\ScrabbleBot\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/lukasstage/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\lukas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nuget.pkg.github.com/jesper-bengtson/index.json": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
@@ -117,38 +127,43 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.101/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/lukasstage/Documents/repos/bfup/scrabble/ScrabbleTemplate/ScrabbleTemplate/ScrabbleTemplate.fsproj": {
+    "C:\\Users\\lukas\\Documents\\vscode\\repos\\scrabble\\scrabble\\ScrabbleTemplate\\ScrabbleTemplate\\ScrabbleTemplate.fsproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/lukasstage/Documents/repos/bfup/scrabble/ScrabbleTemplate/ScrabbleTemplate/ScrabbleTemplate.fsproj",
+        "projectUniqueName": "C:\\Users\\lukas\\Documents\\vscode\\repos\\scrabble\\scrabble\\ScrabbleTemplate\\ScrabbleTemplate\\ScrabbleTemplate.fsproj",
         "projectName": "ScrabbleTemplate",
-        "projectPath": "/Users/lukasstage/Documents/repos/bfup/scrabble/ScrabbleTemplate/ScrabbleTemplate/ScrabbleTemplate.fsproj",
-        "packagesPath": "/Users/lukasstage/.nuget/packages/",
-        "outputPath": "/Users/lukasstage/Documents/repos/bfup/scrabble/ScrabbleTemplate/ScrabbleTemplate/obj/",
+        "projectPath": "C:\\Users\\lukas\\Documents\\vscode\\repos\\scrabble\\scrabble\\ScrabbleTemplate\\ScrabbleTemplate\\ScrabbleTemplate.fsproj",
+        "packagesPath": "C:\\Users\\lukas\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\lukas\\Documents\\vscode\\repos\\scrabble\\scrabble\\ScrabbleTemplate\\ScrabbleTemplate\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/lukasstage/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\lukas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nuget.pkg.github.com/jesper-bengtson/index.json": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "/Users/lukasstage/Documents/repos/bfup/scrabble/ScrabbleTemplate/Dictionary/Dictionary.fsproj": {
-                "projectPath": "/Users/lukasstage/Documents/repos/bfup/scrabble/ScrabbleTemplate/Dictionary/Dictionary.fsproj"
+              "C:\\Users\\lukas\\Documents\\vscode\\repos\\scrabble\\scrabble\\ScrabbleTemplate\\Dictionary\\Dictionary.fsproj": {
+                "projectPath": "C:\\Users\\lukas\\Documents\\vscode\\repos\\scrabble\\scrabble\\ScrabbleTemplate\\Dictionary\\Dictionary.fsproj"
               },
-              "/Users/lukasstage/Documents/repos/bfup/scrabble/ScrabbleTemplate/ScrabbleBot/ScrabbleBot.fsproj": {
-                "projectPath": "/Users/lukasstage/Documents/repos/bfup/scrabble/ScrabbleTemplate/ScrabbleBot/ScrabbleBot.fsproj"
+              "C:\\Users\\lukas\\Documents\\vscode\\repos\\scrabble\\scrabble\\ScrabbleTemplate\\ScrabbleBot\\ScrabbleBot.fsproj": {
+                "projectPath": "C:\\Users\\lukas\\Documents\\vscode\\repos\\scrabble\\scrabble\\ScrabbleTemplate\\ScrabbleBot\\ScrabbleBot.fsproj"
               }
             }
           }
@@ -190,7 +205,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.101/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

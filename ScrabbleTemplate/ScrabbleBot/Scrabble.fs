@@ -208,16 +208,16 @@ module Scrabble =
                     |Some _::tail -> helper tail
                     |None::tail   -> helper tail
                     |[]           -> None
-                debugPrint(sprintf "final word is %A \n  " (helper words))
+               // debugPrint(sprintf "final word is %A \n  " (helper words))
                 helper words        
   
     //too simple not to work
     let canMakeWord(c : char)  (st: State.state) =
-        debugPrint(sprintf "inside canMakeword. Testing with starting character: %A\n" c)
+       // debugPrint(sprintf "inside canMakeword. Testing with starting character: %A\n" c)
         match makeWord c st with
         | None -> false
-        | _  -> 
-            debugPrint(sprintf "canMakeword is true\n")
+        | Some x  -> 
+           // debugPrint(sprintf "canMakeword is true! word is %A . Please note, this is just a check \n" x)
             true
     
     let checkAdjacentRight (pos : coord) (word : string) (c : char) (alignment : string) (st : State.state) : bool =
@@ -453,7 +453,7 @@ module Scrabble =
         aux pos currentBoard ""
     
     let checkAdjHorisontal (pos:coord) (currentBoard:Map<coord, pieces>) (st:State.state) =
-        debugPrint( sprintf "inside check adjacency - checking horisontally \n")
+        //debugPrint( sprintf "inside check adjacency - checking horisontally \n")
         let rec aux pos currentBoard =
             let posLeft = ((fst(pos)-1),snd(pos))
             let left = Map.tryFind posLeft currentBoard
@@ -476,7 +476,7 @@ module Scrabble =
         aux pos currentBoard ""
     
     let checkAdjVertical (pos:coord) (currentBoard:Map<coord,pieces>) (st:State.state) =
-        debugPrint( sprintf "inside check adjacency - checking vertically \n") 
+        //debugPrint( sprintf "inside check adjacency - checking vertically \n") 
         let rec aux pos currentBoard =
             let posAbove = (fst(pos), snd(pos)-1)
             let above = Map.tryFind posAbove currentBoard
@@ -486,7 +486,7 @@ module Scrabble =
         aux pos currentBoard
 
     let adjancency (pos:coord) lst st : bool =
-        debugPrint( sprintf "inside adjaNcency. About to create new board \n") 
+        //debugPrint( sprintf "inside adjaNcency. About to create new board \n") 
         let currentBoard = newBoard st lst
         (checkAdjVertical pos currentBoard st && checkAdjHorisontal pos currentBoard st)
 
@@ -555,7 +555,7 @@ module Scrabble =
                 | None   -> canInsertWordVertical (Some w[0..(w.Length-2)]) newCoord st
 
     let rec canInsertWordHorisontal (word : string option) (pos : coord as (x,y)) (st : State.state) =
-        debugPrint(sprintf "Inside canInsertWordHorisontal. checking if can insert word: %A horisontally, with starting position: %A \n" word pos)
+        //debugPrint(sprintf "Inside canInsertWordHorisontal. checking if can insert word: %A horisontally, with starting position: %A \n" word pos)
         match word with
         |None -> false
         |Some w -> 
@@ -577,7 +577,7 @@ module Scrabble =
         match word with
             |None -> ""
             |Some w ->
-                debugPrint(sprintf "inside getWord. just returning the word: %A \n" w)
+               // debugPrint(sprintf "inside getWord. just returning the word: %A  for another function \n" w)
                 w
     //now returns tile on hand
     let getTileFromCharacter (c:char) (st:State.state) =
@@ -585,14 +585,14 @@ module Scrabble =
         let lst = toList set
         let newL = List.map (fun x -> Map.find x st.tiles)
         let tiles = newL lst
-        debugPrint (sprintf "printing the tile list from hand %A\n" tiles)
+        //debugPrint (sprintf "printing the tile list from hand %A\n" tiles)
 
         //let mylst = List.fold (fun acc x -> List.map( Map.find x) empt lst 
         let rec helper lst c : tile =
             match lst with
             |t:tile::tail when
                 fst(t.MinimumElement) = c ->
-                    debugPrint (sprintf "Count of tile t: %A\n" t)
+                   // debugPrint (sprintf "Count of tile t: %A\n" t)
                     t //fst(tile.MaximumElement),snd(tile.MaximumElement)
             |x::rest ->
                 helper rest c
@@ -663,7 +663,7 @@ module Scrabble =
     let coordList (word:string) (firstWord:bool) (direction:char) (pos:coord): (int*int) list = 
         let wordList = Seq.toList word
         if firstWord then
-            debugPrint (sprintf "Inside coordlist. Empty board\n" )
+           // debugPrint (sprintf "Inside coordlist. Empty board\n" )
 
             let rec aux wordList count = 
                 match wordList with 
@@ -671,10 +671,10 @@ module Scrabble =
                 |[]         -> []
             aux wordList 0
         else
-            debugPrint (sprintf "Inside coordList.Non-empty board \n" )
+            //debugPrint (sprintf "Inside coordList.Non-empty board \n" )
             let wordList = wordList[1..]
             if direction = 'v' then 
-                debugPrint (sprintf "Inside coordList. using 'V' \n")
+           //     debugPrint (sprintf "Inside coordList. using 'V' \n")
                 let rec aux wordList pos = 
                     match wordList with
                     |[]         -> []
@@ -684,7 +684,7 @@ module Scrabble =
 
                 aux wordList (fst(pos),snd(pos))
             else 
-                debugPrint (sprintf "Inside coordList. using 'h' \n")
+             //   debugPrint (sprintf "Inside coordList. using 'h' \n")
                 let rec aux wordList pos = 
                     match wordList with
                     |[]         -> []
@@ -710,38 +710,40 @@ module Scrabble =
         //change from booleans. if can insert horisontal, then do so 
         //otherwise, insert vertically
         if st.currentBoard.IsEmpty then
-            debugPrint (sprintf "Inside insertWord. I claim that board is empty\n%A \n" (getWord c st)) 
+            //debugPrint (sprintf "Inside insertWord. I claim that board is empty\n%A \n" (getWord c st)) 
             insertFirstWord c st pos
         else
             if c = ' ' then
-                debugPrint (sprintf "Inside insertWord. c is empty.. sadness\n")
+                debugPrint (sprintf "Inside insertWord - could not construct word. swap instead \n")
                 None
 
             else
-                debugPrint (sprintf "Inside insertWord. I claim that board is NOT empty \n" )
+                //debugPrint (sprintf "Inside insertWord. I claim that board is NOT empty \n" )
                 let tiles =  getTilesFromWord c st false
                 if canVertical (makeWord c st) pos st then 
-                    debugPrint (sprintf "trying to insert vertically (insert word)\n" )
+                    //debugPrint (sprintf "trying to insert vertically (insert word)\n" )
                     let coords = coordList (getWord c (st: State.state)) false 'v' pos
                     debugPrint (sprintf "coords length: %A, tiles length: %A\n" coords.Length tiles.Length)
-                    debugPrint (sprintf "coords: %A\ntiles: %A\n" coords tiles)
+                    //debugPrint (sprintf "coords: %A\ntiles: %A\n" coords tiles)
                     //we just insert vertically 
                     let ourMove coords tiles =                  
                         debugPrint (sprintf "coords & tiles are %A" (Some (List.zip coords tiles)))
                         Some (List.zip coords tiles)
                     ourMove coords tiles
-                else 
-                    debugPrint (sprintf "trying to insert horisontally (insert word)\n" )
-                    let coords = coordList (getWord c (st: State.state)) false 'h' pos
-                    //we just insert vertically 
-                    let ourMove coords tiles =
-                        debugPrint (sprintf "coords & tiles are %A" (Some (List.zip coords tiles)))
-                        Some (List.zip coords tiles)
-                    ourMove coords tiles
+                else if canHorisontal(makeWord c st) pos st then 
+                        //debugPrint (sprintf "trying to insert horisontally (insert word)\n" )
+                        let coords = coordList (getWord c (st: State.state)) false 'h' pos
+                        //we just insert vertically 
+                        let ourMove coords tiles =
+                            debugPrint (sprintf "coords & tiles are %A" (Some (List.zip coords tiles)))
+                            Some (List.zip coords tiles)
+                        ourMove coords tiles
+                    else 
+                        None
     
 
     let FindMove (st : State.state) =
-        debugPrint(sprintf "inside findMove. Checking if board is empty \n")
+       // debugPrint(sprintf "inside findMove. Checking if board is empty \n")
 
         if st.currentBoard.IsEmpty then
             debugPrint(sprintf "inside findMove. Board is empty. \n")
@@ -755,7 +757,7 @@ module Scrabble =
             //let newState = {st with hand = newHand}
             (' ', (0,0)), st
         else 
-            debugPrint (sprintf "Board is not empty. will try to insert a word, using an existing start character on table \n" )
+            debugPrint (sprintf "Board is not empty. will try to insert a word, using a single existing character on table \n" )
             let chars = State.currentBoard st |> Map.toSeq |> List.ofSeq; 
             // each entry in the list looks as follows: [(int*int), (char*int)] 
             // here (int*int) is coord, (char*int) is piece
@@ -844,23 +846,51 @@ module Scrabble =
                 //updates hand & board & turn
                 let st' = {st with hand = newHandSet; playerTurn = nextTurn}
                 aux st'
-            | RCM (CMPlayFailed (pid, ms)) ->
-                //ignore this evil comment
-                (* Failed play. Update your state *)
-                let st' = st // This state needs to be updated
+            | RCM (CMPassed player) ->
+                if player <> st.playerNumber then
+                    let st' = {st with playerTurn = nextTurn} 
+                    aux st'
+                else
+                    aux st
+            | RCM (CMTimeout player ) -> 
+                let st' = {st with playerTurn = nextTurn} 
                 aux st'
+            | RCM (CMPlayFailed (pid, ms)) ->
+                (* Failed play. Update your state *)
+                    if pid = st.playerNumber then 
+                        send cstream (SMChange (toList st.hand))
+                        let st' = {st with playerTurn = nextTurn} 
+                        aux st'
+                    else
+                        let st' = {st with playerTurn = nextTurn} 
+                        aux st'
             | RCM (CMGameOver _) -> ()
-            | RCM a -> failwith (sprintf "not implmented: %A" a)
+            | RCM (CMChange(playerId, numberOfTiles)) ->
+                if playerId <> st.playerNumber  then
+                    let st' = {st with playerTurn = nextTurn} 
+                    aux st'
+                else
+                    aux st
+          
+            | RCM (CMForfeit player) ->
+                let newNumPlayer = st.numPlayer-1u
+                let st' = {st with numPlayer = newNumPlayer}
+                aux st' 
             | RGPE err ->
                 let helper error =
                     match error with
                     | GPENotEnoughPieces (_ , p) ->
-                        send cstream (SMChange (List.take (int p) (MultiSet.toList (State.hand st))))
+                        send cstream (SMChange (List.take (int p) (toList st.hand)))
+                        let st' = {st with playerTurn = nextTurn} 
+                        aux st'
                     | _ ->
-                        printfn "Gameplay Error:\n%A" err
+                        debugPrint( sprintf "unknown error. Visit me on line 886")
+                        //printfn "Gameplay Error:\n%A" err
+                        send cstream (SMChange (toList st.hand))
+                        let st' = {st with playerTurn = nextTurn} 
+                        aux st'
                 List.iter helper err
-                aux st
-
+                //aux st
         aux st
 
     let startGame 
