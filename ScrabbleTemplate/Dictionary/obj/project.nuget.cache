@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "Kh/tpjsYmE+5+xSZJPbvlBVKiKebR/+/LeFbjuT6BtlcFsICCf2bRmxfaYTObd6gi9ZVVnck2chuEvb6X5BgTQ==",
+  "dgSpecHash": "5IcaENVJovLB8kFzxA4Vh6xIHRo+4uygn2NCd8a2SGqpMHo1D7iMQKLnZBYhCgXYZF0Quw+AGs3HCaEJjnGWOg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\lukas\\Documents\\vscode\\repos\\scrabble\\scrabble\\ScrabbleTemplate\\Dictionary\\Dictionary.fsproj",
+  "projectFilePath": "/Users/lukasstage/Documents/repos/bfup/scrabble/ScrabbleTemplate/Dictionary/Dictionary.fsproj",
   "expectedPackageFiles": [
-    "C:\\Users\\lukas\\.nuget\\packages\\fsharp.core\\6.0.2\\fsharp.core.6.0.2.nupkg.sha512"
+    "/Users/lukasstage/.nuget/packages/fsharp.core/6.0.1/fsharp.core.6.0.1.nupkg.sha512"
   ],
   "logs": []
 }

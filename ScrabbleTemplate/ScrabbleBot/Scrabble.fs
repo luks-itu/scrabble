@@ -73,8 +73,39 @@ module Scrabble =
     open System.Threading
     open MultiSet
     type pieces =  (char*int)
+(*
+    let wrapperVertical (input) (st:State.state) =
+        match input with 
+        |Some x -> Some x
+        |None ->
+            let tiles = toList st.currentBoard
+            match tiles with
+            |coord,pieces::tail ->
+                let pos = coord
+                let wordV = findExistingVerticalWord pos
+                let current = makeNewWord wordV
+                let skip = wordV.Length -1
+                let gotRoom = hasRoomVertical pos (current.[skip..])
+                match gotRoom with
+                |true ->
+                    let check  = 
+*)
+
+    let findExistingVerticalWord pos =
+        failwith "not implemented"
+
+    let makeNewWord wordOnBoard = 
+        failwith "not implemented"
+
+    let hasRoomVertical pos length =
+        failwith "not implemented"
+    
+    let newInsert currentWordWithoutExistingTiles = 
+        failwith "not implemented"
+
 
     let makeWord (c : char) (st : State.state) : string option =
+        debugPrint (sprintf "current hand is %A \n" st.hand)
         let InitialC = c
        // debugPrint( sprintf "inside makeWord. now beginning \n")
         if st.currentBoard.IsEmpty then
@@ -591,9 +622,13 @@ module Scrabble =
         let rec helper lst c : tile =
             match lst with
             |t:tile::tail when
-                fst(t.MinimumElement) = c ->
+                fst(t.MinimumElement) = c && t.Count = 1 ->
                    // debugPrint (sprintf "Count of tile t: %A\n" t)
                     t //fst(tile.MaximumElement),snd(tile.MaximumElement)
+            |t:tile::tail when
+                fst(t.MinimumElement) = c && t.Count > 1 ->
+                   // debugPrint (sprintf "Count of tile t: %A\n" t)
+                    t //fst(tile.MaximumElement),snd(tile.MaximumElement)            
             |x::rest ->
                 helper rest c
             |[]      ->
