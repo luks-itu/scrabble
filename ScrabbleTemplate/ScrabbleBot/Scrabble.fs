@@ -55,10 +55,11 @@ module State =
         currentBoard  : Map<coord,pieces>
         tiles         : Map<uint32, tile>  //We assume tiles in the lookup table
         remainingTiles : int  //number of tiles played in the game so far
+        flip : int //used to determine if horisont or vertical (for solo play only)
     }
 
     let mkState b d pn h n t l =
-        {board = b; dict = d;  playerNumber = pn; hand = h; numPlayer = n; playerTurn = t; currentBoard = Map.empty; tiles = l; remainingTiles = 0 }
+        {board = b; dict = d;  playerNumber = pn; hand = h; numPlayer = n; playerTurn = t; currentBoard = Map.empty; tiles = l; remainingTiles = 0; flip = 0}
 
     let board st         = st.board
     let dict st          = st.dict
@@ -69,12 +70,17 @@ module State =
     let currentBoard st  = st.currentBoard
     let tiles st         = st.tiles
     let remainingTiles st  = st.remainingTiles
+    let flip st             = st.flip
     
 
 module Scrabble =
     open System.Threading
     open MultiSet
     type pieces =  (char*int)
+
+
+
+    let incrementFlip (st:State.state) = st.flip+1
 
         //used to check adjacencies - by pretending we have already inserted our word
     let newBoard (st:State.state) (lst: option<list<(int * int) * (uint32 * (char * int))>>) =
@@ -90,6 +96,23 @@ module Scrabble =
        //                debugPrint(sprintf "Returning the new board: %A \n" currentBoard) 
                     currentBoard
             aux l st.currentBoard
+        
+        //check if the created word can fit the board horisontally
+    let canHorisontal (w:string option) (pos:coord) (st:State.state) =
+        match w with
+            |None  -> false
+            |Some word ->
+                let rec aux count pos =
+                    if count = 0 then true
+                    else
+                        let next = fst(pos)+1,snd(pos)
+                        let nextExists = Map.tryFind next st.currentBoard
+                        match nextExists with
+                        |Some _ -> false
+                        |None -> 
+                            let count = count - 1
+                            aux count next
+                aux (word.Length) pos
     
     //helper for horisontal adjacency check
     let getWholeWordHorisontal (pos:coord) (currentBoard:Map<coord,pieces>) (st:State.state) = 
@@ -168,7 +191,7 @@ module Scrabble =
 
         //method for getting the last dictionary in the existing word
         let rec aux (wordOnBoard:string) (counter:int) (dictionary:Dictionary.Dict) = 
-            debugPrint( sprintf "WORD ON BOARD IS %A \n" wordOnBoard)
+           // debugPrint( sprintf "WORD ON BOARD IS %A \n" wordOnBoard)
             let initial = Dictionary.step wordOnBoard[counter] dictionary
          //   debugPrint( sprintf "now trying %A"  wordOnBoard[counter])
             match initial with
@@ -213,7 +236,7 @@ module Scrabble =
             |Some (isWord,dictionary) -> 
                     match isWord with
                     |true ->
-                        debugPrint( sprintf "i did it! word is %A \n" wordOnBoard+currentWord)
+                    //    debugPrint( sprintf "i did it! word is %A \n" wordOnBoard+currentWord)
                         Some (wordOnBoard+currentWord)
                     |false ->  
                         let newC = fst(((Map.find handlist[0] st.tiles).MinimumElement))
@@ -229,12 +252,12 @@ module Scrabble =
 
         let rec helper words = 
                     match words with
-                    |Some x::_ when Dictionary.lookup x st.dict = true ->
+                    |Some x::_ when Dictionary.lookup x st.dict = true  ->
                         Some x
                     |Some _::tail -> helper tail
                     |None::tail   -> helper tail
                     |[]           -> None
-        debugPrint(sprintf "final word is %A \n  " (helper words))
+        //debugPrint(sprintf "final word is %A \n  " (helper words))
 
         helper words        
     
@@ -329,6 +352,16 @@ module Scrabble =
             |[] -> count
         aux lst 0
 
+    let coordListHorisontal (word:string) (pos:coord) : (int*int) list =
+        let wordList = Seq.toList word
+        let rec aux wordList pos = 
+            match wordList with
+            |[]         -> []
+            |head::tail -> 
+                let newCoord = (fst(pos)+1,(snd(pos)))
+                newCoord::aux tail newCoord
+
+        aux wordList (fst(pos),snd(pos))
         //get coords for word to insert (for wrapperVertical)
     let coordListVertical (word:string)  (pos:coord): (int*int) list = 
         let wordList = Seq.toList word
@@ -342,7 +375,7 @@ module Scrabble =
         aux wordList (fst(pos),snd(pos))
 
     //helper for finding existing word on board
-    let getWordAndEndPosition (pos:coord) (st:State.state) = 
+    let getWordAndEndPositionV (pos:coord) (st:State.state) = 
         let rec aux (pos:coord) (st:State.state) (word:string) =
             let current = fst(Map.find pos st.currentBoard)
             let word = word+current.ToString()
@@ -350,7 +383,7 @@ module Scrabble =
             let below = Map.tryFind posBelow st.currentBoard
             match below with
             |Some _ -> aux posBelow st word
-            |None -> if word.Length > 1 then (word,pos) else ("",pos)
+            |None ->  (word,pos)         //if word.Length > 1 then (word,pos) else ("",pos)
         aux pos st ""
     
     //returns word on board and its final position
@@ -360,7 +393,7 @@ module Scrabble =
             let above = Map.tryFind posAbove st.currentBoard
             match above with 
             |Some _ -> aux posAbove st
-            |None -> getWordAndEndPosition pos st 
+            |None -> getWordAndEndPositionV pos st 
         aux pos st
 
 
@@ -391,9 +424,9 @@ module Scrabble =
 
                         //create new word based on found word
                         let current = makeNewWord wordV st
-                        debugPrint( sprintf "NEW WORD IS %A \n" current)
-                        debugPrint( sprintf "NEW WORD IS %A \n" current)
-                        debugPrint( sprintf "NEW WORD IS %A \n" current)
+                  //      debugPrint( sprintf "NEW WORD IS %A \n" current)
+                   //     debugPrint( sprintf "NEW WORD IS %A \n" current)
+                    //    debugPrint( sprintf "NEW WORD IS %A \n" current)
                         //check if succesful
                         match current with
                         |None -> aux tail
@@ -416,7 +449,68 @@ module Scrabble =
                             |false -> aux tail
                 |[] -> None
             aux tiles
+    //new
+    let getWordAndEndPositionH pos st =
+        let rec aux (pos:coord) (st:State.state) (word:string) =
+            let current = fst(Map.find pos st.currentBoard)
+            let word = word+current.ToString()
+            let posRight = (fst(pos)+1, snd(pos))
+            let below = Map.tryFind posRight st.currentBoard
+            match below with
+            |Some _ -> aux posRight st word
+            |None ->  (word,pos)         //if word.Length > 1 then (word,pos) else ("",pos)
+        aux pos st "" 
 
+    
+    //new
+    let findExistingHorisontalWord pos st = 
+        let rec aux pos (st:State.state) =
+            let posLeft = (fst(pos)-1, snd(pos))
+            let above = Map.tryFind posLeft st.currentBoard
+            match above with 
+            |Some _ -> aux posLeft st
+            |None -> getWordAndEndPositionH pos st 
+        aux pos st
+    
+
+    let wrapperHorisontal (input) (st:State.state) =
+        match input with 
+        |Some x -> Some x
+        |None ->
+            //get all tiles on board
+            let tiles = Map.toList st.currentBoard
+            let rec aux tiles =
+                //match on coords
+                match tiles with
+                |(coord,_)::tail ->
+                    //starting pos
+                    let pos = coord
+                    let wordH = fst(findExistingHorisontalWord pos st)
+                    match wordH with
+                    |""  -> aux tail
+                    |_   -> 
+                        let wordHEnd = snd(findExistingVerticalWord pos st)
+                        let newWordStart = (fst(wordHEnd)+1,snd(wordHEnd))
+                        let current = makeNewWord wordH st
+                        match current with
+                        |None -> aux tail
+                        |Some x ->
+                            let skip = wordH.Length
+                            let wholeWorld = getNewWord current
+                            let actual =  wholeWorld.[skip..]
+                            let optionActual = Some actual
+                            let gotRoom = canHorisontal optionActual wordHEnd st
+                            match gotRoom with
+                            |true ->
+                                let coordinates = coordListHorisontal actual wordHEnd
+                                let insert = newInsert actual st coordinates
+                                let check  = adjacencyFinal newWordStart insert st
+                                match check with
+                                |true -> newInsert actual st coordinates
+                                |false -> aux tail
+                            |false -> aux tail
+                |[] -> None
+            aux tiles
 
     //make word with existing character on board
     let makeWord (c : char) (st : State.state) : string option =
@@ -433,7 +527,7 @@ module Scrabble =
                 let next = Dictionary.step c dict
                 match next with
                 |None ->
-                    if currentWord.Length > 1 then
+                    if currentWord.Length > 2 then
                         let hand = toList st.hand
                         //debugPrint (sprintf "hand length is %A \n"hand.Length)
                         let skipp = currentWord.Length
@@ -502,7 +596,7 @@ module Scrabble =
                     let next = Dictionary.step c dict
                     match next with
                     |None ->
-                        if currentWord.Length > 1 then
+                        if currentWord.Length > 2 then
                             let hand = toList st.hand
                             //debugPrint (sprintf "hand length is %A \n"hand.Length)
                             let skipp = currentWord.Length
@@ -781,23 +875,6 @@ module Scrabble =
 
 
 
-    //check if the created word can fit the board horisontally
-    let canHorisontal (w:string option) (pos:coord) (st:State.state) =
-        match w with
-            |None  -> false
-            |Some word ->
-                let rec aux count pos =
-                    if count = 0 then true
-                    else
-                        let next = fst(pos)+1,snd(pos)
-                        let nextExists = Map.tryFind next st.currentBoard
-                        match nextExists with
-                        |Some _ -> false
-                        |None -> 
-                            let count = count - 1
-                            aux count next
-                aux (word.Length) pos
-
     //no longer used
     let rec canInsertWordVertical (word : string option) (pos : coord as (x,y)) (st : State.state) =
         debugPrint(sprintf "Inside canInsertWordVertical. checking if can insert word: %A vertically, with starting position: %A \n" word pos)
@@ -946,7 +1023,7 @@ module Scrabble =
             insertFirstWord c st pos
         else
             if c = ' ' then
-                debugPrint (sprintf "Inside insertWord - could not construct word. swap instead \n")
+               // debugPrint (sprintf "Inside insertWord - could not construct word. swap instead \n")
                 None
 
             else
@@ -959,7 +1036,7 @@ module Scrabble =
                     //debugPrint (sprintf "coords: %A\ntiles: %A\n" coords tiles)
                     //we just insert vertically 
                     let ourMove coords tiles =                  
-                        debugPrint (sprintf "coords & tiles are %A" (Some (List.zip coords tiles)))
+                    //   debugPrint (sprintf "coords & tiles are %A" (Some (List.zip coords tiles)))
                         Some (List.zip coords tiles)
                     ourMove coords tiles
                 else if canHorisontal(makeWord c st) pos st then 
@@ -967,7 +1044,7 @@ module Scrabble =
                         let coords = coordList (getWord c (st: State.state)) false 'h' pos
                         //we just insert vertically 
                         let ourMove coords tiles =
-                            debugPrint (sprintf "coords & tiles are %A" (Some (List.zip coords tiles)))
+                      //      debugPrint (sprintf "coords & tiles are %A" (Some (List.zip coords tiles)))
                             Some (List.zip coords tiles)
                         ourMove coords tiles
                     else 
@@ -1008,6 +1085,10 @@ module Scrabble =
                 | _::tail -> aux(tail) st 
                 | []      -> (' ',  (0,0)), st
             aux chars st
+
+    let swapper (st:State.state) = 
+        if st.flip % 2 = 0 then wrapperHorisontal (wrapperVertical(insertWord(FindMove(st))) st) st 
+        else wrapperVertical(wrapperHorisontal(insertWord(FindMove(st))) st) st
             
     let playGame cstream pieces (st : State.state) =
 
@@ -1024,10 +1105,13 @@ module Scrabble =
             //only request and make move if our turn
             if (ourTurn st.playerNumber st.playerTurn) then 
                 // remove the force print when you move on from manual input (or when you have learnt the format)
-                forcePrint "Input move (format '(<x-coordinate> <y-coordinate> <piece id><character><point-value> )*', note the absence of space between the last inputs)\n\n"
+                debugPrint( sprintf "Input move (format '(<x-coordinate> <y-coordinate> <piece id><character><point-value> )*', note the absence of space between the last inputs)\n\n" )
                 //let input = System.Console.ReadLine()
                 debugPrint (sprintf "before query\n")
-                let query = wrapperVertical(insertWord(FindMove(st))) st
+               
+                //let query = wrapperHorisontal (wrapperVertical(insertWord(FindMove(st))) st) st 
+                let query = swapper st
+                
                 debugPrint (sprintf "query: %A\n" query)
                     
                 debugPrint(sprintf "Current turn: %A, PlayerNumber: %A, PlayerTurn: %A\n" ourTurn st.playerNumber st.playerTurn)
@@ -1057,11 +1141,11 @@ module Scrabble =
                 let (newHandSet : MultiSet<uint32>) =
                     List.fold (fun acc (x, k) ->
                         MultiSet.add x k acc) newHand newPieces
-                
+
                 let updatedRemaining = updateRemainingTiles ms + st.remainingTiles
                 debugPrint( sprintf "current number of tiles played total: %A /n " updatedRemaining)
                 //updates hand & board & turn
-                let st' = {st with hand = newHandSet; currentBoard = newBoard; playerTurn = nextTurn; remainingTiles=updatedRemaining}
+                let st' = {st with hand = newHandSet; currentBoard = newBoard; playerTurn = nextTurn; remainingTiles=updatedRemaining; flip=incrementFlip st}
                 debugPrint(sprintf "Map of current board: %A\n" st'.currentBoard)
                 
                 aux st'
@@ -1119,8 +1203,8 @@ module Scrabble =
                     match error with
                     | GPENotEnoughPieces (_ , p) ->
                         send cstream (SMChange (List.take (int p) (toList st.hand)))
-                        let st' = {st with playerTurn = nextTurn} 
-                        aux st'
+                        //let st' = {st with playerTurn = nextTurn} 
+                        aux st
                     | _ ->
                         debugPrint( sprintf "unknown error. Visit me on line 886")
                         //printfn "Gameplay Error:\n%A" err
