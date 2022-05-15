@@ -299,12 +299,13 @@ module Scrabble =
         aux t lst
 
     
-    // unwrap created word
+    // returns created word without option type
     let getNewWord makeNewWord = 
         match makeNewWord with
         |None ->  ""
         |Some word -> word
 
+    //get tile for each character in a word
     let getTilesOfWord (word:string) (st:State.state) = 
         let charList = Seq.toList word
         let rec aux charList st =
@@ -352,6 +353,7 @@ module Scrabble =
             |[] -> count
         aux lst 0
 
+    //get coords of word to insert (for wrapperHorisontal)
     let coordListHorisontal (word:string) (pos:coord) : (int*int) list =
         let wordList = Seq.toList word
         let rec aux wordList pos = 
@@ -362,7 +364,8 @@ module Scrabble =
                 newCoord::aux tail newCoord
 
         aux wordList (fst(pos),snd(pos))
-        //get coords for word to insert (for wrapperVertical)
+    
+    //get coords for word to insert (for wrapperVertical)
     let coordListVertical (word:string)  (pos:coord): (int*int) list = 
         let wordList = Seq.toList word
         let rec aux wordList pos = 
@@ -449,7 +452,8 @@ module Scrabble =
                             |false -> aux tail
                 |[] -> None
             aux tiles
-    //new
+    
+    // gets the word on the board and its end position
     let getWordAndEndPositionH pos st =
         let rec aux (pos:coord) (st:State.state) (word:string) =
             let current = fst(Map.find pos st.currentBoard)
@@ -462,7 +466,7 @@ module Scrabble =
         aux pos st "" 
 
     
-    //new
+    //find horisontal word on board
     let findExistingHorisontalWord pos st = 
         let rec aux pos (st:State.state) =
             let posLeft = (fst(pos)-1, snd(pos))
@@ -472,7 +476,7 @@ module Scrabble =
             |None -> getWordAndEndPositionH pos st 
         aux pos st
     
-
+    //wrapper for checking for insertion of horisontal words, based on existing word on board
     let wrapperHorisontal (input) (st:State.state) =
         match input with 
         |Some x -> Some x
@@ -661,258 +665,6 @@ module Scrabble =
            // debugPrint(sprintf "canMakeword is true! word is %A . Please note, this is just a check \n" x)
             true
 
-    //no longer used
-    let checkAdjacentRight (pos : coord) (word : string) (c : char) (alignment : string) (st : State.state) : bool =
-        debugPrint( sprintf "inside CheckAdjRight \n")
-        if alignment = "vertical" then
-            debugPrint (sprintf "inside AdjRight.vertical\n")
-            let current = c.ToString()
-            let position = (fst(pos)+1,snd(pos))
-            debugPrint (sprintf "starting pos: %A\n" position)
-            let rec aux (pos : coord) (current : string) (st : State.state) =
-                let isOccupied = Map.tryFind pos st.currentBoard
-                //debugPrint (sprintf "current: %A, pos: %A, isOccupied: %A\n" current position isOccupied)
-                match isOccupied with
-                | Some x -> 
-                    let current = current+(fst(x)).ToString()
-                    let position = (fst(pos)+1, snd(pos))
-                    //debugPrint (sprintf "new pos: %A\n" position)
-                    aux position current st
-                | None   -> 
-                        if current.Length > 1 then
-                            debugPrint (sprintf "Exiting adjRight.vertical with: %A\n Current: %A\n" (Dictionary.lookup current st.dict) current)
-                            Dictionary.lookup current st.dict
-                        else
-                            true
-            aux position current st
-        else
-            debugPrint (sprintf "inside AdjRight.horisontal\n")
-            let current = word
-            let position = (fst(pos)+word.Length, snd(pos))
-            let rec aux (pos : coord) (current : string) (st : State.state) =
-                let isOccupied = Map.tryFind pos st.currentBoard
-                //debugPrint (sprintf "current: %A, pos: %A, isOccupied: %A\n" current position isOccupied)
-                match isOccupied with
-                | Some x -> 
-                    let current = current+(fst(x)).ToString()
-                    let position = (fst(pos)+1,snd(pos))
-                    aux position current st
-                | None   -> 
-                    if current.Length > 1 then
-                        debugPrint (sprintf "Exiting adjRight.horisontal with: %A\n Current: %A\n" (Dictionary.lookup current st.dict) current)
-                        Dictionary.lookup current st.dict
-                    else
-                        true
-            aux position current st
-    
-    //no longer used
-    let checkAdjacentLeft (pos : coord) (word : string) (c : char) (alignment : string) (st : State.state) : bool =
-        debugPrint (sprintf "Inside checkAdjLeft\n")
-        if alignment = "vertical" then
-            debugPrint (sprintf "Inside checkAdjLeft.vertical\n")
-            let current = c.ToString()
-            let position = (fst(pos)-1,snd(pos))
-            let rec aux (pos : coord) (current : string) (st : State.state) =
-                let isOccupied = Map.tryFind pos st.currentBoard
-                //debugPrint (sprintf "current: %A, pos: %A, isOccupied: %A\n" current position isOccupied)
-                match isOccupied with
-                | Some x -> 
-                    let current = (fst(x)).ToString()+current
-                    let position = (fst(pos)-1,snd(pos))
-                    aux position current st
-                | None   -> 
-                        if current.Length > 1 then
-                            debugPrint (sprintf "Exiting adjLeft.vertical with: %A\n Current: %A\n" (Dictionary.lookup current st.dict) current)
-                            Dictionary.lookup current st.dict
-                        else
-                            true
-            aux position current st
-        else
-            debugPrint (sprintf "inside AdjLeft.horisontal\n")
-            let current = word
-            let position = (fst(pos)-1,snd(pos))
-            let rec aux (pos : coord) (current : string) (st : State.state) =
-                let isOccupied = Map.tryFind pos st.currentBoard
-                //debugPrint (sprintf "current: %A, pos: %A, isOccupied: %A\n" current position isOccupied)
-                match isOccupied with
-                | Some x -> 
-                    let current = (fst(x)).ToString()+current
-                    let position = (fst(pos)-1,snd(pos))
-                    aux position current st
-                | None   ->
-                    if current.Length > 1 then
-                        debugPrint (sprintf "Exiting adjLeft.horisontal with: %A\n Current: %A\n" (Dictionary.lookup current st.dict) current)
-                        Dictionary.lookup current st.dict
-                    else
-                        true
-            aux position current st
-
-    //no longer used
-    let checkAdjacentUp (pos : coord) (word : string) (c : char) (alignment : string) (st : State.state) : bool =
-        debugPrint( sprintf "inside CheckAdjUP \n")
-        if alignment = "vertical" then
-            debugPrint( sprintf "inside CheckAdjUP.vertical \n")
-            let current = word
-            let position = (fst(pos), (snd(pos))-1)
-            let rec aux (pos : coord) (current : string) (st : State.state) =
-                let isOccupied = Map.tryFind pos st.currentBoard
-                //debugPrint (sprintf "current: %A, pos: %A, isOccupied: %A\n" current position isOccupied)
-                match isOccupied with
-                | Some x -> 
-                    let current = (fst(x)).ToString()+current
-                    let position = (fst(pos),snd(pos)-1)
-                    aux position current st
-                | None   ->
-                    if current.Length > 1 then
-                        debugPrint (sprintf "Exiting adjUP.vertical with: %A\n Current: %A\n" (Dictionary.lookup current st.dict) current)
-                        Dictionary.lookup current st.dict
-                    else
-                        true
-                       
-            aux position current st
-        else
-            debugPrint( sprintf "inside CheckAdjUP.horisontal \n")
-            let current = c.ToString()
-            let position = (fst(pos),snd(pos)-1)
-            let rec aux (pos : coord) (current : string) (st : State.state) =
-                let isOccupied = Map.tryFind pos st.currentBoard
-                //debugPrint (sprintf "current: %A, pos: %A, isOccupied: %A\n" current position isOccupied)
-                match isOccupied with
-                | Some x -> 
-                    let current = (fst(x)).ToString()+current
-                    let position = (fst(pos),snd(pos)-1)
-                    aux position current st
-                | None   -> 
-                    if current.Length > 1 then
-                        debugPrint (sprintf "Exiting adjUP.horisontal with: %A\n Current: %A\n" (Dictionary.lookup current st.dict) current)
-                        Dictionary.lookup current st.dict
-                    else
-                        true
-
-            aux position current st
-    
-    //no longer used
-    let checkAdjacentDown (pos : coord) (word : string) (c : char) (alignment : string) (st : State.state) : bool =
-        debugPrint( sprintf "inside CheckAdjDOWN \n")
-        if alignment = "vertical" then
-            debugPrint( sprintf "inside CheckAdjDOWN.vertical \n")
-            let current = word
-            let position = (fst(pos),snd(pos)+word.Length)
-            let rec aux (pos : coord) (current : string) (st : State.state) =
-                let isOccupied = Map.tryFind pos st.currentBoard
-                //debugPrint (sprintf "current: %A, pos: %A, isOccupied: %A\n" current position isOccupied)
-                match isOccupied with
-                | Some x -> 
-                    let current = current+(fst(x)).ToString()
-                    let position = (fst(pos),snd(pos)+1)
-                    aux position current st
-                | None   -> 
-                    if current.Length > 1 then
-                        debugPrint (sprintf "Exiting adjDOWN.vertical with: %A\n" (Dictionary.lookup current st.dict))
-                        Dictionary.lookup current st.dict
-                    else
-                        true
-
-            aux position current st
-        else 
-            debugPrint( sprintf "inside CheckAdjDOWN.horisontal \n")
-            let current = c.ToString()
-            let position = (fst(pos),snd(pos)+1)
-            let rec aux (pos : coord) (current : string) (st : State.state) =
-                let isOccupied = Map.tryFind pos st.currentBoard
-                //debugPrint (sprintf "current: %A, pos: %A, isOccupied: %A\n" current position isOccupied)
-                match isOccupied with
-                | Some x -> 
-                    let current = current+(fst(x)).ToString()
-                    let position = (fst(pos),snd(pos)+1)
-                    aux position current st
-                | None   -> 
-                    if current.Length > 1 then
-                        debugPrint (sprintf "Exiting adjDOWN.horisontal with: %A\n" (Dictionary.lookup current st.dict))
-                        Dictionary.lookup current st.dict
-                    else
-                        true
-
-            aux position current st
-
-    //no longer used           
-    let checkAdjacency (pos : coord) (word : string) (c :char) (alignment : string) (st : State.state) : bool = 
-        if checkAdjacentRight pos word c alignment st && checkAdjacentLeft pos word c alignment st && 
-            checkAdjacentDown pos word c alignment st && checkAdjacentUp pos word c alignment st then true
-        else 
-            false
-
-    //no longer used    
-    let wordCheckAdjacency (word : string) (pos : coord) (alignment : string) (st : State.state) : bool =
-        // 1. boardWithWord = (board.insert word)
-        // 2. for each position where we placed a new tile:
-        //      2.1. check vertical
-        //              2.1.1. get position of first tile in word (travel up)
-        //              2.1.2. traverse downwards untill next space is empty while checking dictionary
-        //                      - if we can't step the dictionary (returns none), word cannot be placed
-        //              2.1.3. if the word we end with is a valid word (can be checked in the output of step), the word is valid
-        //      2.2. check horizontal
-        let chars = Seq.toList word
-        if alignment = "vertical" then
-            let rec aux chars pos (word: string) = 
-                match chars with 
-                | head::tail ->
-                    let newPos = (fst(pos),snd(pos)+1) 
-                    let newWord = word.[1..]
-                    if (checkAdjacency pos word head "vertical" st) then aux chars[1..] newPos newWord else false
-                | [] -> true
-            aux chars pos word
-        else
-            let rec aux chars pos (word: string) = 
-                match chars with 
-                | head::tail ->
-                    let newPos = (fst(pos)+1,snd(pos)) 
-                    let newWord = word.[1..]
-                    if (checkAdjacency pos word head "horisontal" st) then aux chars[1..] newPos newWord else false
-                | [] -> true
-            aux chars pos word
-
-
-
-
-    //no longer used
-    let rec canInsertWordVertical (word : string option) (pos : coord as (x,y)) (st : State.state) =
-        debugPrint(sprintf "Inside canInsertWordVertical. checking if can insert word: %A vertically, with starting position: %A \n" word pos)
-        match word with
-        | None -> false
-        | Some w -> 
-            let lengthOfInput = w.Length-1
-            //if you reach this, then you have reached end of word without issues. can insert
-            if (lengthOfInput = 0) then
-                debugPrint (sprintf "inside canVertical. Returning true\n")
-                true
-            else
-            // checking if can insert
-                let newCoord = (x,(y+lengthOfInput))
-                match Map.tryFind newCoord st.currentBoard with
-                | Some x ->
-                    debugPrint(sprintf "inside canVertical. Returning false\n")
-                    false
-                | None   -> canInsertWordVertical (Some w[0..(w.Length-2)]) newCoord st
-
-    //no longer used
-    let rec canInsertWordHorisontal (word : string option) (pos : coord as (x,y)) (st : State.state) =
-        //debugPrint(sprintf "Inside canInsertWordHorisontal. checking if can insert word: %A horisontally, with starting position: %A \n" word pos)
-        match word with
-        |None -> false
-        |Some w -> 
-            let lengthOfInput = w.Length-1
-            if (lengthOfInput = 0) then
-                debugPrint (sprintf "Can insert word horisontally \n")
-                true 
-            else
-                let newCoord = ((x+lengthOfInput),y)
-                match Map.tryFind newCoord st.currentBoard with
-                | Some x ->
-                    debugPrint (sprintf "Inside canInsertHorisontal. cannot insert word horisontally  \n") 
-                    false
-                | None   -> canInsertWordHorisontal (Some w[0..(w.Length-2)]) newCoord st
-
     //just a getter for the word, without the option type
     let getWord (c:char) (st:State.state) =
         let word = makeWord c st
@@ -921,17 +673,6 @@ module Scrabble =
             |Some w ->
                // debugPrint(sprintf "inside getWord. just returning the word: %A  for another function \n" w)
                 w
-
-
-
-        
-    //no longer used
-    let getIDValue (c:char) (st:State.state) =
-        let (lst : list<uint32 * tile>) = st.tiles |> Map.toList
-        match lst with
-        | ((n : uint32) , t)::tail when fst(t.MinimumElement) = c -> snd(t.MinimumElement)
-        |_ -> 0
-
 
 
     //given word, receive list of tiles to play
@@ -1047,23 +788,14 @@ module Scrabble =
                       //      debugPrint (sprintf "coords & tiles are %A" (Some (List.zip coords tiles)))
                             Some (List.zip coords tiles)
                         ourMove coords tiles
-                    else 
-                        None
+                else 
+                    None
     
     //initial check to determine when/if to call insertWord
     let FindMove (st : State.state) =
        // debugPrint(sprintf "inside findMove. Checking if board is empty \n")
 
         if st.currentBoard.IsEmpty then
-           // debugPrint(sprintf "inside findMove. Board is empty. \n")
-            //let handList = toList st.hand
-            //let newC = Map.find handList[0] st.tiles
-            //let c = fst(newC.MinimumElement)
-
-            //debugPrint(sprintf "inside findMove.Starting char is: %A \n" c)
-            //let (newHand : MultiSet<uint32>) =
-            //MultiSet.removeSingle handList[0] st.hand
-            //let newState = {st with hand = newHand}
             (' ', (0,0)), st
         else 
           //  debugPrint (sprintf "Board is not empty. will try to insert a word, using a single existing character on table \n" )
@@ -1085,7 +817,7 @@ module Scrabble =
                 | _::tail -> aux(tail) st 
                 | []      -> (' ',  (0,0)), st
             aux chars st
-
+    //main query method. Swaps between prioritising vertical and horisontal insertions of words based on existing words on board
     let swapper (st:State.state) = 
         if st.flip % 2 = 0 then wrapperHorisontal (wrapperVertical(insertWord(FindMove(st))) st) st 
         else wrapperVertical(wrapperHorisontal(insertWord(FindMove(st))) st) st

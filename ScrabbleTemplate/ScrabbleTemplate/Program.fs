@@ -55,7 +55,8 @@ let main argv =
         time (fun () -> ScrabbleUtil.Dictionary.mkDict words dictAPI)
     // Uncomment this line to call your client
     let players =
-        [("FSkarpBot", dictionary, FSkarp.Scrabble.startGame);
+        [("FSkarpBot", dictionary, FSkarp.Scrabble.startGame); 
+        ("OBBot", dictionary, Oxyphenbutazone.Scrabble.startGame)   
        ]
     //let players =
     //("OBBot", dictionary, Oxyphenbutazone.Scrabble.startGame)
