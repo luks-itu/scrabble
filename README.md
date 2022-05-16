@@ -22,4 +22,6 @@ Parallelism: No
 
 Respect timeout: No
 
-
+### How to run:
+Navigate to ```\scrabble\ScrabbleTemplate\ScrabbleTemplate``` in terminal. Input command ```Dotnet run .```
+If you have any issues, run  ```dotnet build```
